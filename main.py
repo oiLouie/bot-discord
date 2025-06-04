@@ -120,8 +120,6 @@ async def on_reaction_add(reaction, user):
         save_data()  # Salva progresso após cada reação
 
 
-# ... código anterior sem mudanças ...
-
 @tasks.loop(minutes=1)
 async def send_daily_report():
     now = datetime.datetime.now(pytz.timezone('America/Sao_Paulo'))
@@ -140,19 +138,14 @@ async def send_daily_report():
                 mention = f"<@{USER_ID}>"
                 embed = discord.Embed(
                     title="📋 Daily Report",
-                    description=(
-                        f"Tasks completed today: **{count} / {total}**\n"
-                        f"{melancias if melancias else 'No melons today...'}\n\n"
-                        f"{mention}"
-                    ),
+                    description=
+                    (f"Tasks completed today: **{count} / {total}**\n"
+                     f"{melancias if melancias else 'No melons today...'}\n\n"
+                     f"{mention}"),
                     color=0x90EE90)
                 await channel.send(embed=embed)
 
-                # Envia o comando para adicionar pontos (melancias) para ela
-                # Ajuste 'fizzywizzy111' para o username correto do usuário do outro bot
-                points_command = f"/modifybal add user:@fizzywizzy111 amount:{count}"
-                await channel.send(points_command)
-                
+
 @bot.command()
 async def puppylog(ctx):
     date_str = datetime.datetime.now(pytz.timezone('America/Sao_Paulo')).strftime("%Y-%m-%d")
